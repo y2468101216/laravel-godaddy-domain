@@ -26,22 +26,22 @@ class DomainCommandTest extends TestCase
 
     public function testDomainCommandCreate()
     {
-        $mock = \Mockery::mock('overload:'.Config::class);
-        $mock->shouldReceive('get')->andReturn([
+        $mockConfig = \Mockery::mock(Config::class);
+        $mockConfig->shouldReceive('get')->andReturn([
             'key' => 'godaddy-key',
             'secret' => 'godaddy-secret',
             'domain' => 'test.com',
         ]);
 
         $expect = 0;
-        $mock = new MockHandler([
+        $mockHandler = new MockHandler([
             new Response(200, [], '127.0.0.1'),
             new Response(200),
             new Response(200),
             new Response(200),
         ]);
 
-        $handler = HandlerStack::create($mock);
+        $handler = HandlerStack::create($mockHandler);
         $client = new Client(['handler' => $handler]);
 
         $command = Mockery::mock(DomainCommand::class)
@@ -52,7 +52,7 @@ class DomainCommandTest extends TestCase
             ])
             ->getMock();
 
-        $actual = $command->handle($client);
+        $actual = $command->handle($client, $mockConfig);
 
         $this->assertEquals($expect, $actual);
     }

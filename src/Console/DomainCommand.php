@@ -30,7 +30,7 @@ class DomainCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'godaddy-domain {--domain} {--type=} {--name=} {--value=}';
+    protected $signature = 'godaddy-domain {--domain=} {--type=} {--name=} {--value=}';
 
     /**
      * The console command description.
@@ -54,13 +54,13 @@ class DomainCommand extends Command
      *
      * @return mixed
      */
-    public function handle(Client $client)
+    public function handle(Client $client, Config $config)
     {
         $this->client = $client;
 
         $this->info('register domain to Godady start');
 
-        $this->config = $this->getConfig();
+        $this->config = $this->getConfig($config);
         $this->clientOptions = $this->getClientOption();
 
         $this->recordType = $this->retrieveOption('type');
@@ -196,10 +196,10 @@ class DomainCommand extends Command
         return;
     }
 
-    protected function getConfig() : array
+    protected function getConfig(Config $config): array
     {
         $this->info('retrieve config from env');
-        $config = Config::get('godaddy');
+        $config = $config->get('godaddy');
 
         if (empty($config['key'])) {
             $this->error('godaddy key is not set in env, please check .env or config cache');

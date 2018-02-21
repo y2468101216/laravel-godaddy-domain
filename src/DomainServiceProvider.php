@@ -10,7 +10,7 @@ class DomainServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->pubishes([
+        $this->publishes([
             __DIR__.'/../config/godaddy.php' => config_path('godaddy.php'),
         ]);
 
