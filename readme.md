@@ -1,4 +1,4 @@
-# Laravel Dodaddy Domain
+# Laravel Godaddy Domain
 
 ## Status
 
