@@ -211,11 +211,6 @@ class DomainCommand extends Command
             exit(1);
         }
 
-        if (empty($config['secret'])) {
-            $this->error('godaddy secret is not set in env, please check .env or config cache');
-            exit(1);
-        }
-
         if (empty($config['type'])) {
             $config['type'] = self::DEFAULT_RECORD_TYPE;
             $this->info('dns type is not set in env, use '.$config['type'].' as default');
